@@ -2,6 +2,7 @@ package integration.telex.airbyte.telexairbyteintegration.controller;
 
 import integration.telex.airbyte.telexairbyteintegration.service.TelexService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ public class WebhookController {
     }
 
     @PostMapping("/airbyte")
-    public void airbyteWebhook(String payload) {
+    public void airbyteWebhook(@RequestBody String payload) {
         telexService.processPayload(payload);
     }
 }

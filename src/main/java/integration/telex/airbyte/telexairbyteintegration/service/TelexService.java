@@ -13,7 +13,7 @@ import java.util.Map;
 public class TelexService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-    private HelperMethods helperMethods;
+    private final HelperMethods helperMethods;
     private static final String AIRBYTE_MESSAGE_TEMPLATE =
             """
                     %s Sync %s
@@ -27,9 +27,10 @@ public class TelexService {
                     **Bytes Committed:** %s
                     """;
 
-    public TelexService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public TelexService(RestTemplate restTemplate, ObjectMapper objectMapper, HelperMethods helperMethods) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+        this.helperMethods = helperMethods;
     }
 
     private Map<String, Object> extractDataFromPayload(String payloadData) {
