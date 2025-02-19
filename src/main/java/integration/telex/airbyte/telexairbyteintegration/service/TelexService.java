@@ -100,7 +100,6 @@ public class TelexService {
         try {
             String telexWebhookUrl = "https://ping.telex.im/v1/webhooks/0195135b-5f5f-76a7-b23a-8251952c5b42";
             restTemplate.postForEntity(telexWebhookUrl, message, String.class);
-            System.out.println("Message sent to Telex channel");
         } catch (Exception e) {
             throw new TelexCommunicationException("Error occurred while sending message to Telex channel", e);
         }
@@ -115,7 +114,6 @@ public class TelexService {
         String message = formatMessageFromData(data);
 
         sendToTelexChannel(message);
-        System.out.println("Payload processed successfully");
     }
 
     private void validatePayload(JsonNode payloadNode) {
