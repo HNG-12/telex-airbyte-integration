@@ -2,6 +2,8 @@ package integration.telex.airbyte.telexairbyteintegration.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import integration.telex.airbyte.telexairbyteintegration.exception.PayloadProcessingException;
+import integration.telex.airbyte.telexairbyteintegration.exception.TelexCommunicationException;
 import integration.telex.airbyte.telexairbyteintegration.util.HelperMethods;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -36,32 +38,34 @@ public class TelexService {
     private Map<String, Object> extractDataFromPayload(String payloadData) {
         try {
             JsonNode payloadNode =  objectMapper.readTree(payloadData);
+            validatePayload(payloadNode);
+
+            JsonNode dataNode = payloadNode.get("data");
+            validatePayload(dataNode);
 
             Map<String, Object> data = new HashMap<>();
-
-            data.put("workspace_name", helperMethods.getStringValue(payloadNode, "workspace", "name"));
-            data.put("connection_name", helperMethods.getStringValue(payloadNode, "connection", "name"));
-            data.put("source_name", helperMethods.getStringValue(payloadNode, "source", "name"));
-            data.put("destination_name", helperMethods.getStringValue(payloadNode, "destination", "name"));
-            data.put("connection_url", helperMethods.getStringValue(payloadNode, "connection", "url"));
-            data.put("source_url", helperMethods.getStringValue(payloadNode, "source", "url"));
-            data.put("destination_url", helperMethods.getStringValue(payloadNode, "destination", "url"));
-            data.put("successful_sync", helperMethods.getBooleanValue(payloadNode, "success"));
-            data.put("duration_formatted", helperMethods.getStringValue(payloadNode, "durationFormatted"));
-            data.put("records_emitted", helperMethods.getIntValue(payloadNode, "recordsEmitted"));
-            data.put("records_committed", helperMethods.getIntValue(payloadNode, "recordsCommitted"));
-            data.put("bytes_emitted_formatted", helperMethods.getStringValue(payloadNode, "bytesEmittedFormatted"));
-            data.put("bytes_committed_formatted", helperMethods.getStringValue(payloadNode, "bytesCommittedFormatted"));
+            data.put("workspace_name", helperMethods.getStringValue(dataNode, "workspace", "name"));
+            data.put("connection_name", helperMethods.getStringValue(dataNode, "connection", "name"));
+            data.put("source_name", helperMethods.getStringValue(dataNode, "source", "name"));
+            data.put("destination_name", helperMethods.getStringValue(dataNode, "destination", "name"));
+            data.put("connection_url", helperMethods.getStringValue(dataNode, "connection", "url"));
+            data.put("source_url", helperMethods.getStringValue(dataNode, "source", "url"));
+            data.put("destination_url", helperMethods.getStringValue(dataNode, "destination", "url"));
+            data.put("successful_sync", helperMethods.getBooleanValue(dataNode, "success"));
+            data.put("duration_formatted", helperMethods.getStringValue(dataNode, "durationFormatted"));
+            data.put("records_emitted", helperMethods.getIntValue(dataNode, "recordsEmitted"));
+            data.put("records_committed", helperMethods.getIntValue(dataNode, "recordsCommitted"));
+            data.put("bytes_emitted_formatted", helperMethods.getStringValue(dataNode, "bytesEmittedFormatted"));
+            data.put("bytes_committed_formatted", helperMethods.getStringValue(dataNode, "bytesCommittedFormatted"));
 
             if (!(Boolean) data.get("successful_sync")) {
-                data.put("error_message", helperMethods.getStringValue(payloadNode, "errorMessage"));
+                data.put("error_message", helperMethods.getStringValue(dataNode, "errorMessage"));
             }
 
             return data;
 
         } catch (Exception e) {
-            String errorMessage = "Error occurred while extracting data from payload: " + e.getMessage();
-            throw new RuntimeException(errorMessage);
+            throw new PayloadProcessingException("Error occurred while extracting data from payload", e);
         }
     }
 
@@ -96,8 +100,7 @@ public class TelexService {
             String telexWebhookUrl = "https://ping.telex.im/v1/webhooks/0195135b-5f5f-76a7-b23a-8251952c5b42";
             restTemplate.postForEntity(telexWebhookUrl, message, String.class);
         } catch (Exception e) {
-            String errorMessage = "Error occurred while sending message to Telex channel: " + e.getMessage();
-            throw new RuntimeException(errorMessage);
+            throw new TelexCommunicationException("Error occurred while sending message to Telex channel", e);
         }
     }
 
@@ -110,5 +113,11 @@ public class TelexService {
         String message = formatMessageFromData(data);
 
         sendToTelexChannel(message);
+    }
+
+    private void validatePayload(JsonNode payloadNode) {
+        if (payloadNode == null || !payloadNode.has("data")) {
+            throw new IllegalArgumentException("Invalid Payload: Payload data is missing");
+        }
     }
 }
