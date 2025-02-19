@@ -1,0 +1,1 @@
+web: java -jar target/telex-airbyte-integration-0.0.1-SNAPSHOT.jar

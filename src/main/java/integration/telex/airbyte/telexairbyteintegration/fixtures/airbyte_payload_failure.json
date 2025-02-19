@@ -1,0 +1,92 @@
+{
+  "text": "Your connection Test Connection from The Source to The Destination just failed...\nThis happened with This is test notification. Everything is fine! This is where the error message will show up when an actual sync fails.\n\nYou can access its logs here: https://airbyte.com/\n\nJob ID: 10",
+  "blocks": [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "[THIS IS A TEST NOTIFICATION] Sync failure occurred: <https://airbyte.com/|Test Connection>"
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Source:*"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "<https://airbyte.com/|The Source>"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Destination:*"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "<https://airbyte.com/|The Destination>"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Duration:*"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "1 hours 0 min"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Failure reason:*\n\n```\nThis is test notification. Everything is fine! This is where the error message will show up when an actual sync fails.\n```\n"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Sync Summary:*\n10000 record(s) extracted / 10 record(s) loaded\n151 MB extracted / 1 MB loaded\n"
+      }
+    }
+  ],
+  "data": {
+    "workspace": {
+      "id": "a20a4031-c542-4388-aaa8-702f370cda0c",
+      "name": "Main Workspace",
+      "url": "https://airbyte.com/"
+    },
+    "connection": {
+      "id": "4acff4e7-d963-4050-80f0-d8336d8af1d0",
+      "name": "Test Connection",
+      "url": "https://airbyte.com/"
+    },
+    "source": {
+      "id": "ee690670-c163-409d-86e1-e2384ab1549d",
+      "name": "The Source",
+      "url": "https://airbyte.com/"
+    },
+    "destination": {
+      "id": "050bfab8-747f-4a3b-8308-1eab61072262",
+      "name": "The Destination",
+      "url": "https://airbyte.com/"
+    },
+    "jobId": 10,
+    "startedAt": "2025-02-17T11:12:45.654365688Z",
+    "finishedAt": "2025-02-17T12:12:45.654367388Z",
+    "bytesEmitted": 159341141,
+    "bytesCommitted": 1893412,
+    "recordsEmitted": 10000,
+    "recordsCommitted": 10,
+    "recordsFilteredOut": 0,
+    "bytesFilteredOut": 0,
+    "errorMessage": "This is test notification. Everything is fine! This is where the error message will show up when an actual sync fails.",
+    "durationFormatted": "1 hours 0 min",
+    "bytesEmittedFormatted": "151 MB",
+    "bytesCommittedFormatted": "1 MB",
+    "durationInSeconds": 3600,
+    "success": false
+  }
+}

@@ -1,0 +1,113 @@
+package integration.telex.airbyte.telexairbyteintegration.service;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import integration.telex.airbyte.telexairbyteintegration.util.HelperMethods;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
+public class TelexService {
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+    private HelperMethods helperMethods;
+    private static final String AIRBYTE_MESSAGE_TEMPLATE =
+            """
+                    %s Sync %s
+                    **Connection:** [%s](%s)
+                    **Source:** [%s](%s)
+                    **Destination:** [%s](%s)
+                    **Duration:** %s
+                    **Records Emitted:** %d
+                    **Records Committed:** %d
+                    **Bytes Emitted:** %s
+                    **Bytes Committed:** %s
+                    """;
+
+    public TelexService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+        this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
+    }
+
+    private Map<String, Object> extractDataFromPayload(String payloadData) {
+        try {
+            JsonNode payloadNode =  objectMapper.readTree(payloadData);
+
+            Map<String, Object> data = new HashMap<>();
+
+            data.put("workspace_name", helperMethods.getStringValue(payloadNode, "workspace", "name"));
+            data.put("connection_name", helperMethods.getStringValue(payloadNode, "connection", "name"));
+            data.put("source_name", helperMethods.getStringValue(payloadNode, "source", "name"));
+            data.put("destination_name", helperMethods.getStringValue(payloadNode, "destination", "name"));
+            data.put("connection_url", helperMethods.getStringValue(payloadNode, "connection", "url"));
+            data.put("source_url", helperMethods.getStringValue(payloadNode, "source", "url"));
+            data.put("destination_url", helperMethods.getStringValue(payloadNode, "destination", "url"));
+            data.put("successful_sync", helperMethods.getBooleanValue(payloadNode, "success"));
+            data.put("duration_formatted", helperMethods.getStringValue(payloadNode, "durationFormatted"));
+            data.put("records_emitted", helperMethods.getIntValue(payloadNode, "recordsEmitted"));
+            data.put("records_committed", helperMethods.getIntValue(payloadNode, "recordsCommitted"));
+            data.put("bytes_emitted_formatted", helperMethods.getStringValue(payloadNode, "bytesEmittedFormatted"));
+            data.put("bytes_committed_formatted", helperMethods.getStringValue(payloadNode, "bytesCommittedFormatted"));
+
+            if (!(Boolean) data.get("successful_sync")) {
+                data.put("error_message", helperMethods.getStringValue(payloadNode, "errorMessage"));
+            }
+
+            return data;
+
+        } catch (Exception e) {
+            String errorMessage = "Error occurred while extracting data from payload: " + e.getMessage();
+            throw new RuntimeException(errorMessage);
+        }
+    }
+
+    private String formatMessageFromData(Map<String, Object> data) {
+        String syncStatusEmoji = (Boolean) data.get("successful_sync") ? ":green_circle:" : ":red_circle:";
+        String status = (Boolean) data.get("successful_sync") ? "succeeded" : "failed";
+
+        String content = String.format(AIRBYTE_MESSAGE_TEMPLATE,
+                syncStatusEmoji,
+                status,
+                data.get("connection_name"),
+                data.get("connection_url"),
+                data.get("source_name"),
+                data.get("source_url"),
+                data.get("destination_name"),
+                data.get("destination_url"),
+                data.get("duration_formatted"),
+                data.get("records_emitted"),
+                data.get("records_committed"),
+                data.get("bytes_emitted_formatted"),
+                data.get("bytes_committed_formatted"));
+
+        if (!(Boolean) data.get("successful_sync")) {
+            content += "\n\n**Error Message:** " + data.get("error_message");
+        }
+
+        return content;
+    }
+
+    private void sendToTelexChannel(String message) {
+        try {
+            String telexWebhookUrl = "https://ping.telex.im/v1/webhooks/0195135b-5f5f-76a7-b23a-8251952c5b42";
+            restTemplate.postForEntity(telexWebhookUrl, message, String.class);
+        } catch (Exception e) {
+            String errorMessage = "Error occurred while sending message to Telex channel: " + e.getMessage();
+            throw new RuntimeException(errorMessage);
+        }
+    }
+
+    public void processPayload(String payloadData) {
+        if (payloadData == null || payloadData.isEmpty()) {
+            throw new IllegalArgumentException("Payload data cannot be null or empty");
+        }
+
+        Map<String, Object> data = extractDataFromPayload(payloadData);
+        String message = formatMessageFromData(data);
+
+        sendToTelexChannel(message);
+    }
+}
