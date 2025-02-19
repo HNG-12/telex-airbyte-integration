@@ -41,7 +41,6 @@ public class TelexService {
             validatePayload(payloadNode);
 
             JsonNode dataNode = payloadNode.path("data");
-            System.out.println(dataNode);
 
             Map<String, Object> data = new HashMap<>();
             data.put("workspace_name", helperMethods.getStringValue(dataNode, "workspace", "name"));
@@ -92,6 +91,8 @@ public class TelexService {
             content += "\n\n**Error Message:** " + data.get("error_message");
         }
 
+        System.out.println("Message Content: " + content);
+
         return content;
     }
 
@@ -99,6 +100,7 @@ public class TelexService {
         try {
             String telexWebhookUrl = "https://ping.telex.im/v1/webhooks/0195135b-5f5f-76a7-b23a-8251952c5b42";
             restTemplate.postForEntity(telexWebhookUrl, message, String.class);
+            System.out.println("Message sent to Telex channel");
         } catch (Exception e) {
             throw new TelexCommunicationException("Error occurred while sending message to Telex channel", e);
         }
@@ -113,6 +115,7 @@ public class TelexService {
         String message = formatMessageFromData(data);
 
         sendToTelexChannel(message);
+        System.out.println("Payload processed successfully");
     }
 
     private void validatePayload(JsonNode payloadNode) {
