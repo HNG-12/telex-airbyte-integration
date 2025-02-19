@@ -40,6 +40,7 @@ public class TelexService {
             JsonNode payloadNode =  objectMapper.readTree(payloadData);
 
             JsonNode dataNode = payloadNode.path("data");
+            System.out.println(dataNode);
             validatePayload(dataNode);
 
             Map<String, Object> data = new HashMap<>();
