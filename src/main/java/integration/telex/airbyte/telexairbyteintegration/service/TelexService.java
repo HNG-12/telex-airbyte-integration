@@ -38,9 +38,9 @@ public class TelexService {
     private Map<String, Object> extractDataFromPayload(String payloadData) {
         try {
             JsonNode payloadNode =  objectMapper.readTree(payloadData);
+            System.out.println(payloadNode);
 
             JsonNode dataNode = payloadNode.path("data");
-            System.out.println(dataNode);
             validatePayload(dataNode);
 
             Map<String, Object> data = new HashMap<>();
