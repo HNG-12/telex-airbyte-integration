@@ -38,9 +38,8 @@ public class TelexService {
     private Map<String, Object> extractDataFromPayload(String payloadData) {
         try {
             JsonNode payloadNode =  objectMapper.readTree(payloadData);
-            validatePayload(payloadNode);
 
-            JsonNode dataNode = payloadNode.get("data");
+            JsonNode dataNode = payloadNode.path("data");
             validatePayload(dataNode);
 
             Map<String, Object> data = new HashMap<>();
@@ -116,7 +115,7 @@ public class TelexService {
     }
 
     private void validatePayload(JsonNode payloadNode) {
-        if (payloadNode == null || !payloadNode.has("data")) {
+        if (payloadNode == null || payloadNode.path("data").isMissingNode()) {
             throw new IllegalArgumentException("Invalid Payload: Payload data is missing");
         }
     }
