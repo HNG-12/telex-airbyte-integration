@@ -135,6 +135,7 @@ public class TelexService {
 
     private void sendToTelexChannel(String message) {
         try {
+            initializeWebhookUrl();
             restTemplate.postForEntity(telexWebhookUrl, message, String.class);
         } catch (Exception e) {
             throw new TelexCommunicationException("Error occurred while sending message to Telex channel", e);
