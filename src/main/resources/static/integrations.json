@@ -7,7 +7,7 @@
     "descriptions": {
       "app_name": "Airbyte Sync",
       "app_description": "Airbyte Integration is a data synchronization that summarizes data processed from the Airbyte platform and sends the data to a Telex channel.",
-      "app_logo": "https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com",
+      "app_logo": "https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/img.png",
       "app_url": "https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com",
       "background_color": "#fff"
     },
@@ -32,7 +32,6 @@
         "default": "https://ping.telex.im/v1/webhooks/0195135b-5f5f-76a7-b23a-8251952c5b42"
       }
     ],
-    "target_url": "https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/webhook/airbyte",
-    "tick_url": "https://cloud.airbyte.com/workspaces/44c0b5ae-30d9-4141-baaf-f3cdbde8eb19/connections/d106914e-9d9b-479c-9bde-12d190911a94/status"
+    "tick_url": "https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/webhook/airbyte"
   }
 }
