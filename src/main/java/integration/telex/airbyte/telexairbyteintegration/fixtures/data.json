@@ -1,8 +1,4 @@
 {
-  "event_name": "Airbyte Sync",
-  "username": "Airbyte",
-  "status": "success",
-  "message": "This is an airbyte sync event.",
   "text": "Your connection Connection from Source to Destination succeeded\nThis was for null\n\nYou can access its logs here: https://airbyte.com/\n\nJob ID: 10",
   "blocks": [
     {

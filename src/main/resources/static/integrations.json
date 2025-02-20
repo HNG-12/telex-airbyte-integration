@@ -15,9 +15,7 @@
     "integration_category": "Monitoring & Logging",
     "integration_type": "interval",
     "key_features": [
-      "airbyte",
-      "blocks",
-      "data"
+      "airbyte"
     ],
     "author": "Aniebiet Afia",
     "settings": [
@@ -28,10 +26,46 @@
         "default": "0 9 * * *"
       },
       {
-        "label": "webhook_url",
+        "label": "event_name",
         "type": "text",
         "required": true,
-        "default": "https://ping.telex.im/v1/webhooks/0195135b-5f5f-76a7-b23a-8251952c5b42"
+        "default": "airbyte synchronization"
+      },
+      {
+        "label": "username",
+        "type": "text",
+        "required": true,
+        "default": "airbyte"
+      },
+      {
+        "label": "message",
+        "type": "text",
+        "required": true,
+        "default": "airbyte sync job complete."
+      },
+      {
+        "label": "status",
+        "type": "dropdown",
+        "required": true,
+        "default": "success",
+        "options": [
+          "success",
+          "failed"
+        ]
+      },
+      {
+        "label": "text",
+        "type": "text",
+        "required": true,
+        "default": "Your connection Connection from Source to Destination succeeded"
+      },
+      {
+        "label": "blocks",
+        "type": "dropdown",
+        "required": true,
+        "default": "type",
+        "options": [
+        ]
       }
     ],
     "tick_url": "https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/webhook/airbyte"
