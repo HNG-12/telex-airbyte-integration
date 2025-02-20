@@ -27,6 +27,12 @@
         "default": "0 9 * * *"
       },
       {
+        "label": "webhook_url",
+        "type": "text",
+        "required": true,
+        "default": "https://ping.telex.im/v1/webhooks/0195135b-5f5f-76a7-b23a-8251952c5b42"
+      },
+      {
         "label": "event_name",
         "type": "text",
         "required": true,
