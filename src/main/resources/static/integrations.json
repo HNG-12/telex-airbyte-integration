@@ -12,6 +12,7 @@
       "background_color": "#fff"
     },
     "is_active": true,
+    "integration_category": "Monitoring & Logging",
     "integration_type": "interval",
     "key_features": [
       "airbyte"
@@ -19,10 +20,10 @@
     "author": "Aniebiet Afia",
     "settings": [
       {
-        "label": "airbyte",
+        "label": "interval",
         "type": "text",
         "required": true,
-        "default": "airbyte"
+        "default": "0 9 * * *"
       },
       {
         "label": "webhook_url",
