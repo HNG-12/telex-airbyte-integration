@@ -15,7 +15,9 @@
     "integration_category": "Monitoring & Logging",
     "integration_type": "interval",
     "key_features": [
-      "airbyte"
+      "airbyte",
+      "blocks",
+      "data"
     ],
     "author": "Aniebiet Afia",
     "settings": [

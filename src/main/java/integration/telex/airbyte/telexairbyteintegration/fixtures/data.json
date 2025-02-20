@@ -1,37 +1,89 @@
 {
-  "workspace": {
-    "id": "e995eb4b-0e82-45c7-b3af-6cd42a6dfcdb",
-    "name": "Workspace",
-    "url": "https://airbyte.com/"
-  },
-  "connection": {
-    "id": "72f2eb84-24b6-4f85-9c39-7f8a874ae93c",
-    "name": "Connection",
-    "url": "https://airbyte.com/"
-  },
-  "source": {
-    "id": "a9f56fb1-c241-4b02-aa25-0a631b89be22",
-    "name": "Source",
-    "url": "https://airbyte.com/"
-  },
-  "destination": {
-    "id": "5e022a9c-e5f7-4b7d-874f-7d79fecd559b",
-    "name": "Destination",
-    "url": "https://airbyte.com/"
-  },
-  "jobId": 10,
-  "startedAt": "2025-02-17T11:15:17.622426608Z",
-  "finishedAt": "2025-02-17T12:15:17.622436473Z",
-  "bytesEmitted": 159341141,
-  "bytesCommitted": 159341141,
-  "recordsEmitted": 10000,
-  "recordsCommitted": 1000,
-  "recordsFilteredOut": 0,
-  "bytesFilteredOut": 0,
-  "errorMessage": null,
-  "durationFormatted": "1 hours 0 min",
-  "bytesEmittedFormatted": "151 MB",
-  "bytesCommittedFormatted": "151 MB",
-  "durationInSeconds": 3600,
-  "success": true
+  "event_name": "Airbyte Sync",
+  "username": "Airbyte",
+  "status": "success",
+  "message": "This is an airbyte sync event.",
+  "text": "Your connection Connection from Source to Destination succeeded\nThis was for null\n\nYou can access its logs here: https://airbyte.com/\n\nJob ID: 10",
+  "blocks": [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "[THIS IS A TEST NOTIFICATION] Sync completed: <https://airbyte.com/|Connection>"
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Source:*"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "<https://airbyte.com/|Source>"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Destination:*"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "<https://airbyte.com/|Destination>"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Duration:*"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "1 hours 0 min"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Sync Summary:*\n10000 record(s) extracted / 1000 record(s) loaded\n151 MB extracted / 151 MB loaded\n"
+      }
+    }
+  ],
+  "data": {
+    "workspace": {
+      "id": "e995eb4b-0e82-45c7-b3af-6cd42a6dfcdb",
+      "name": "Workspace",
+      "url": "https://airbyte.com/"
+    },
+    "connection": {
+      "id": "72f2eb84-24b6-4f85-9c39-7f8a874ae93c",
+      "name": "Connection",
+      "url": "https://airbyte.com/"
+    },
+    "source": {
+      "id": "a9f56fb1-c241-4b02-aa25-0a631b89be22",
+      "name": "Source",
+      "url": "https://airbyte.com/"
+    },
+    "destination": {
+      "id": "5e022a9c-e5f7-4b7d-874f-7d79fecd559b",
+      "name": "Destination",
+      "url": "https://airbyte.com/"
+    },
+    "jobId": 10,
+    "startedAt": "2025-02-17T11:15:17.622426608Z",
+    "finishedAt": "2025-02-17T12:15:17.622436473Z",
+    "bytesEmitted": 159341141,
+    "bytesCommitted": 159341141,
+    "recordsEmitted": 10000,
+    "recordsCommitted": 1000,
+    "recordsFilteredOut": 0,
+    "bytesFilteredOut": 0,
+    "errorMessage": null,
+    "durationFormatted": "1 hours 0 min",
+    "bytesEmittedFormatted": "151 MB",
+    "bytesCommittedFormatted": "151 MB",
+    "durationInSeconds": 3600,
+    "success": true
+  }
 }
