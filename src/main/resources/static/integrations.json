@@ -57,6 +57,7 @@
         "default": "success"
       }
     ],
-    "tick_url": "https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/webhook/airbyte"
+    "tick_url": "https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/webhook/airbyte",
+    "target_url": "https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/integrations.json"
   }
 }
