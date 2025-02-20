@@ -16,9 +16,7 @@
     "integration_type": "interval",
     "key_features": [
       "airbyte",
-      "blocks",
-      "text",
-      "data"
+      "synchronization"
     ],
     "author": "Aniebiet Afia",
     "settings": [
@@ -48,32 +46,9 @@
       },
       {
         "label": "status",
-        "type": "dropdown",
-        "required": true,
-        "default": "success",
-        "options": [
-          "success",
-          "failed"
-        ]
-      },
-      {
-        "label": "text",
         "type": "text",
         "required": true,
-        "default": "Your connection Connection from Source to Destination succeeded\nThis was for null\n\nYou can access its logs here: https://airbyte.com/\n\nJob ID: 10"
-      },
-      {
-        "label": "blocks",
-        "type": "dropdown",
-        "required": false,
-        "default": "type",
-        "options": ["section"]
-      },
-      {
-        "label": "data",
-        "type": "dropdown",
-        "required": false,
-        "default": ["connection"]
+        "default": "success"
       }
     ],
     "tick_url": "https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/webhook/airbyte"

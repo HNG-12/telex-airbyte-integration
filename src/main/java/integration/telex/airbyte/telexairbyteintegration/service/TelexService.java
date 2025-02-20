@@ -103,14 +103,26 @@ public class TelexService {
     }
 
     public void processPayload(String payloadData) {
-        if (payloadData == null || payloadData.isEmpty()) {
-            throw new IllegalArgumentException("Payload data cannot be null or empty");
+        try {
+            if (payloadData == null || payloadData.isEmpty()) {
+                throw new IllegalArgumentException("Payload data cannot be null or empty");
+            }
+
+            Map<String, Object> data = extractDataFromPayload(payloadData);
+
+            Map<String, Object> telexPayload = new HashMap<>();
+
+            boolean isSuccessfulSync = (Boolean) data.get("successful_sync");
+
+            telexPayload.put("event_name", data.get("connection_name"));
+            telexPayload.put("username", "airbyte");
+            telexPayload.put("status", isSuccessfulSync ? "success" : "failed");
+            telexPayload.put("message", formatMessageFromData(data));
+
+            sendToTelexChannel(objectMapper.writeValueAsString(telexPayload));
+        } catch (Exception e) {
+            throw new PayloadProcessingException("Error occurred while processing payload", e);
         }
-
-        Map<String, Object> data = extractDataFromPayload(payloadData);
-        String message = formatMessageFromData(data);
-
-        sendToTelexChannel(message);
     }
 
     private void validatePayload(JsonNode payloadNode) {
