@@ -26,8 +26,7 @@ public class TelexService {
                     **Records Emitted:** %d
                     **Records Committed:** %d
                     **Bytes Emitted:** %s
-                    **Bytes Committed:** %s
-                    """;
+                    **Bytes Committed:** %s""";
 
     public TelexService(RestTemplate restTemplate, ObjectMapper objectMapper, HelperMethods helperMethods) {
         this.restTemplate = restTemplate;
@@ -90,8 +89,6 @@ public class TelexService {
         if (!(Boolean) data.get("successful_sync")) {
             content += "\n\n**Error Message:** " + data.get("error_message");
         }
-
-        System.out.println("Message Content: " + content);
 
         return content;
     }
