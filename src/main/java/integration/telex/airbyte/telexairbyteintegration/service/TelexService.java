@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import integration.telex.airbyte.telexairbyteintegration.exception.PayloadProcessingException;
 import integration.telex.airbyte.telexairbyteintegration.exception.TelexCommunicationException;
 import integration.telex.airbyte.telexairbyteintegration.util.HelperMethods;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,9 +16,14 @@ import java.util.Map;
 
 @Service
 public class TelexService {
+    private static final Logger LOG = LoggerFactory.getLogger(TelexService.class);
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final HelperMethods helperMethods;
+    private String telexWebhookUrl;
+    @Value("${integrations.json.url}")
+    private String integrationsJsonUrl;
+
     private static final String AIRBYTE_MESSAGE_TEMPLATE =
             """
                     %s Sync %s
@@ -32,6 +40,38 @@ public class TelexService {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
         this.helperMethods = helperMethods;
+        initializeWebhookUrl();
+    }
+
+    private void initializeWebhookUrl() {
+        try {
+            assert integrationsJsonUrl != null;
+            String jsonString = restTemplate.getForObject(integrationsJsonUrl, String.class);
+            if (jsonString == null) {
+                throw new IllegalStateException("Invalid JSON url");
+            }
+
+            JsonNode rootNode = objectMapper.readTree(jsonString);
+            JsonNode settingsNode = rootNode.path("data").path("settings");
+
+            if (settingsNode.isArray()) {
+                for (JsonNode setting : settingsNode) {
+                    String label = setting.path("label").asText();
+                    if ("webhook_url".equals(label)) {
+                        this.telexWebhookUrl = setting.path("default").asText();
+                        break;
+                    }
+                }
+            }
+
+            if (this.telexWebhookUrl == null || this.telexWebhookUrl.isEmpty()) {
+                throw new IllegalStateException("webhook_url not found in integrations.json");
+            }
+
+            LOG.info("Successfully loaded webhook URL: {}", this.telexWebhookUrl);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to initialize TelexService due to error fetching or parsing integrations.json", e);
+        }
     }
 
     private Map<String, Object> extractDataFromPayload(String payloadData) {
@@ -95,7 +135,6 @@ public class TelexService {
 
     private void sendToTelexChannel(String message) {
         try {
-            String telexWebhookUrl = "https://ping.telex.im/v1/webhooks/0195135b-5f5f-76a7-b23a-8251952c5b42";
             restTemplate.postForEntity(telexWebhookUrl, message, String.class);
         } catch (Exception e) {
             throw new TelexCommunicationException("Error occurred while sending message to Telex channel", e);
