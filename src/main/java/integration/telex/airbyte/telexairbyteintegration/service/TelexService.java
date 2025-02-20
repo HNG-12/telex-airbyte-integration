@@ -40,7 +40,7 @@ public class TelexService {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
         this.helperMethods = helperMethods;
-        initializeWebhookUrl();
+        //initializeWebhookUrl();
     }
 
     private void initializeWebhookUrl() {
