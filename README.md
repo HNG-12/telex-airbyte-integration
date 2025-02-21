@@ -51,5 +51,54 @@ Click on the `Connections` tab and then click on the `New Connection` button.
 * Schedule the sync - Set the frequency of the sync
 * Save the connection
 ```
-3. **Run the connection**
+## **Setup Channel in Telex**
+1. **Open the Telex UI**
+Sign up or log in to the Telex UI.
+```bash
+https://telexim
+```
+2. **Create an organization**
+3. **Create a channel**
+```bash
+* Click on the `Channels` tab and then click on the `+` button.
+* Enter the necessary details and save the channel.
+* Copy the channel webhook URL.
+```
+4. **Activate the Airbyte Integration in Telex Apps**
+```bash
+* Find Airbyte Integration in the list of available integrations.
+* Click on the `Activate` button.
+* Click on `Manage App`.
+* Click on `Settings tab`.
+* Enter the Airbyte webhook URL.
+* Save the settings.
+```
+![Manage App](https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/airbyte_manage_app.png)
+
+## **Setup Airbyte Webhook**
+1. **Open the Airbyte UI**
+2. **Click on Settings tab**
+3. **Click on Notifications**
+4. **Activate Webhook and enter the Webhook Url**
+```bash
+https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/webhook/airbyte
+```
+5. **Save the settings**
+
+![Telex Airbyte Integration](https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/airbyte_input_webhook.png)
+
+## **Run the connection**
+1. **Open the Airbyte UI**
+2. **Click on the connection**
+3. **Click on the `Sync now` button**
+
 ![Airbyte Sync](https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/airbyte_postgres_sync.png)
+
+![Airbyte Sync Complete](https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/airbyte_postgres_sync_complete.png)
+
+## **Check the Telex channel for the data**
+When the sync is complete, the data will be posted to the Telex channel.
+![Telex Channel](https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/airbyte_sync_success.png)
+
+## **Author**
+[Aniebiet Afia](https://github.com/aniebietafia)
