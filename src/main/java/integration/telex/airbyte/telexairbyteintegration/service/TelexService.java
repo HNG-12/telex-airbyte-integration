@@ -2,6 +2,7 @@ package integration.telex.airbyte.telexairbyteintegration.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import integration.telex.airbyte.telexairbyteintegration.enums.SyncStatus;
 import integration.telex.airbyte.telexairbyteintegration.exception.PayloadProcessingException;
 import integration.telex.airbyte.telexairbyteintegration.exception.TelexCommunicationException;
 import integration.telex.airbyte.telexairbyteintegration.util.HelperMethods;
@@ -40,7 +41,6 @@ public class TelexService {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
         this.helperMethods = helperMethods;
-        //initializeWebhookUrl();
     }
 
     private void initializeWebhookUrl() {
@@ -108,12 +108,13 @@ public class TelexService {
     }
 
     private String formatMessageFromData(Map<String, Object> data) {
-        String syncStatusEmoji = (Boolean) data.get("successful_sync") ? ":green_circle:" : ":red_circle:";
-        String status = (Boolean) data.get("successful_sync") ? "succeeded" : "failed";
+//        String syncStatusEmoji = (Boolean) data.get("successful_sync") ? ":green_circle:" : ":red_circle:";
+//        String status = (Boolean) data.get("successful_sync") ? "succeeded" : "failed";
+        SyncStatus syncStatus = (Boolean) data.get("successful_sync") ? SyncStatus.SUCCESS : SyncStatus.FAILED;
 
         String content = String.format(AIRBYTE_MESSAGE_TEMPLATE,
-                syncStatusEmoji,
-                status,
+                syncStatus.getEmoji(),
+                syncStatus.getDescription(),
                 data.get("connection_name"),
                 data.get("connection_url"),
                 data.get("source_name"),
@@ -126,7 +127,7 @@ public class TelexService {
                 data.get("bytes_emitted_formatted"),
                 data.get("bytes_committed_formatted"));
 
-        if (!(Boolean) data.get("successful_sync")) {
+        if (syncStatus == SyncStatus.FAILED) {
             content += "\n\n**Error Message:** " + data.get("error_message");
         }
 
