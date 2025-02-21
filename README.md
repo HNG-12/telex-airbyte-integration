@@ -3,11 +3,9 @@ Airbyte is arguably the best open-source data integration tool available today. 
 
 ## Features
 - **Data Integration**: Airbyte is a powerful and flexible tool that can be used to move data from a wide variety of sources to a wide variety of destinations.
-- **Data Transformation**: Telex provides the platform to transform data from Airbyte and post sync data to channels.
-- **Data Sync**: Telex provides the platform to sync data from Airbyte and post sync data to channels.
-- **Data Monitoring**: Telex provides the platform to monitor data from Airbyte and post sync data to channels.
-- **Data Alerting**: Telex provides the platform to alert data from Airbyte and post sync data to channels.
-- **Data Reporting**: Telex provides the platform to report data from Airbyte and post sync data to channels.
+- **Data Transformation**: Telex provides the platform to transform data from Airbyte and post data to Telex channels.
+- **Data Monitoring**: Telex provides the platform to monitor data from Airbyte.
+- **Data Alerting**: Telex provides the platform to alert data from Airbyte.
 
 ## Tools & Technologies
 > - Airbyte
@@ -19,3 +17,39 @@ Airbyte is arguably the best open-source data integration tool available today. 
 > - Maven
 > - Git
 > - GitHub
+
+## Installation & Setup
+1. **Clone the repository**
+```bash
+git clone git@github.com:HNG-12/telex-airbyte-integration.git
+```
+2. **Change directory**
+```bash
+cd telex-airbyte-integration
+```
+3. **Run the application**
+```bash
+mvn spring-boot:run
+```
+
+## Usage
+### **Create a new Airbyte connection**
+1. **Open the Airbyte UI**
+Sign up or log in to the Airbyte UI.
+```bash
+https://cloud.airbyte.com/
+```
+2. **Create a new connection**
+Click on the `Connections` tab and then click on the `New Connection` button.
+```bash
+* Define the source - Click on Set up a new source
+* Select a Source from the list of Suggested sources e.g. `Google Sheets`
+* Configure the source - Enter the necessary details
+* Define the destination - Click on Set up a new destination
+* Select a Destination from the list of Suggested destinations e.g. `Postgres`
+* Configure the destination - Enter the necessary details
+* Schedule the sync - Set the frequency of the sync
+* Save the connection
+```
+3. **Run the connection**
+![Airbyte Sync](https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/airbyte_postgres_sync.png)
