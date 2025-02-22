@@ -14,14 +14,4 @@ public class TelexAirbyteIntegrationApplication {
         SpringApplication.run(TelexAirbyteIntegrationApplication.class, args);
     }
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
-
-    @Bean
-    public HelperMethods helperMethods() {
-        return new HelperMethods();
-    }
-
 }

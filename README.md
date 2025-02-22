@@ -70,7 +70,7 @@ https://telexim
 * Click on the `Activate` button.
 * Click on `Manage App`.
 * Click on `Settings tab`.
-* Enter the Airbyte webhook URL.
+* Enter the `channel` webhook URL.
 * Save the settings.
 ```
 ![Manage App](https://telex-airbyte-integration-93ef60b1a5d1.herokuapp.com/airbyte_manage_app.png)
