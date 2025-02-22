@@ -30,7 +30,7 @@
         "label": "webhook_url",
         "type": "text",
         "required": true,
-        "default": "https://ping.telex.im/v1/webhooks/0195135b-5f5f-76a7-b23a-8251952c5b42"
+        "default": "https://ping.telex.im/v1/webhooks/01952a50-5293-7d3b-b427-fbad0e38ec68"
       },
       {
         "label": "event_name",

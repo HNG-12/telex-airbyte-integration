@@ -108,8 +108,6 @@ public class TelexService {
     }
 
     private String formatMessageFromData(Map<String, Object> data) {
-//        String syncStatusEmoji = (Boolean) data.get("successful_sync") ? ":green_circle:" : ":red_circle:";
-//        String status = (Boolean) data.get("successful_sync") ? "succeeded" : "failed";
         SyncStatus syncStatus = (Boolean) data.get("successful_sync") ? SyncStatus.SUCCESS : SyncStatus.FAILED;
 
         String content = String.format(AIRBYTE_MESSAGE_TEMPLATE,
